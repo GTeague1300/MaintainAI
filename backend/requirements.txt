@@ -9,3 +9,4 @@ python-dotenv
 argon2-cffi
 pydantic
 pytest
+requests
