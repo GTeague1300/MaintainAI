@@ -1,0 +1,25 @@
+[1mdiff --git a/backend/app/__init__.py b/backend/app/__init__.py[m
+[1mindex d428f6d..74a07d3 100644[m
+[1m--- a/backend/app/__init__.py[m
+[1m+++ b/backend/app/__init__.py[m
+[36m@@ -4,7 +4,7 @@[m [mfrom flask import Flask, jsonify[m
+ from flask_cors import CORS[m
+ from dotenv import load_dotenv[m
+ from sqlalchemy import text[m
+[31m-[m
+[32m+[m[32mfrom app.routes.equipment import equipment_bp[m
+ from app.extensions import db, migrate[m
+ from app.models import User, Equipment, MaintenanceRequest[m
+ [m
+[36m@@ -40,6 +40,11 @@[m [mdef create_app():[m
+ [m
+     CORS(app)[m
+ [m
+[32m+[m[32m    app.register_blueprint([m
+[32m+[m[32m    equipment_bp,[m
+[32m+[m[32m    url_prefix="/api/equipment"[m
+[32m+[m[32m)[m
+[32m+[m
+     @app.route("/")[m
+     def home():[m
+         return jsonify({[m

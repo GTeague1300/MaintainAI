@@ -4,7 +4,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from sqlalchemy import text
-
+from app.routes.equipment import equipment_bp
 from app.extensions import db, migrate
 from app.models import User, Equipment, MaintenanceRequest
 
@@ -39,6 +39,11 @@ def create_app():
     migrate.init_app(app, db)
 
     CORS(app)
+
+    app.register_blueprint(
+    equipment_bp,
+    url_prefix="/api/equipment"
+)
 
     @app.route("/")
     def home():
