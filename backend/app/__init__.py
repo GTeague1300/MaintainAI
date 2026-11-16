@@ -48,8 +48,8 @@ def create_app(test_config=None):
     CORS(app)
 
     app.register_blueprint(
-    equipment_bp,
-    url_prefix="/api/equipment"
+        equipment_bp,
+        url_prefix="/api/equipment"
 )
 
     @app.route("/")
