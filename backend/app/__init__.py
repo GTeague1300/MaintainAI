@@ -11,16 +11,13 @@ from app.models import User, Equipment, MaintenanceRequest
 load_dotenv()
 
 
-def create_app():
+def create_app(test_config=None):
 
     app = Flask(__name__)
 
     database_url = os.getenv("DATABASE_URL")
 
-    if not database_url:
-        raise RuntimeError("DATABASE_URL is not configured.")
-
-    if database_url.startswith("postgresql://"):
+    if database_url and database_url.startswith("postgresql://"):
         database_url = database_url.replace(
             "postgresql://",
             "postgresql+psycopg://",
@@ -29,6 +26,16 @@ def create_app():
 
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_pre_ping": True
+    }
+
+    if test_config:
+        app.config.update(test_config)
+
+    if not app.config.get("SQLALCHEMY_DATABASE_URI"):
+        raise RuntimeError("DATABASE_URL is not configured.")
 
     app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
         "pool_pre_ping": True
