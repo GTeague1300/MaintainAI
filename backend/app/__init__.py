@@ -4,10 +4,13 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from sqlalchemy import text
+
 from app.routes.equipment import equipment_bp
-from app.extensions import db, migrate
-from app.models import User, Equipment, MaintenanceRequest
 from app.routes.maintenance_requests import maintenance_requests_bp
+from app.routes.work_orders import work_orders_bp
+
+from app.extensions import db, migrate
+from app.models import User, Equipment, MaintenanceRequest, WorkOrder
 
 load_dotenv()
 
@@ -55,6 +58,10 @@ def create_app(test_config=None):
     app.register_blueprint(
     maintenance_requests_bp,
     url_prefix="/api/maintenance-requests"
+)
+    app.register_blueprint(
+    work_orders_bp,
+    url_prefix="/api/work-orders"
 )
 
     @app.route("/")
